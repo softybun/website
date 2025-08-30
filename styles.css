@@ -121,3 +121,10 @@ p {
     height: 100px;
   }
 }
+
+
+#logo {
+  max-width: 500px;  /* adjust size as needed */
+  width: 70%;        /* responsive scaling */
+  height: auto;
+}
