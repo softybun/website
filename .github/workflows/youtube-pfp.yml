@@ -13,7 +13,7 @@ jobs:
 
       - name: Fetch YouTube profile picture
         run: |
-          CHANNEL_ID="UCxxxxxxxxxxxx"
+          CHANNEL_ID="UCglxQS6YvUrdlaS4NGax1OA"
           curl -s \
             "https://www.googleapis.com/youtube/v3/channels?part=snippet&id=$CHANNEL_ID&key=${{ secrets.YOUTUBE_API_KEY }}" \
             | jq -r '.items[0].snippet.thumbnails.high.url' \
