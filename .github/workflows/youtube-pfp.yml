@@ -1,0 +1,31 @@
+name: Sync YouTube Profile Picture
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # runs daily
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch YouTube profile picture
+        run: |
+          CHANNEL_ID="UCxxxxxxxxxxxx"
+          curl -s \
+            "https://www.googleapis.com/youtube/v3/channels?part=snippet&id=$CHANNEL_ID&key=${{ secrets.YOUTUBE_API_KEY }}" \
+            | jq -r '.items[0].snippet.thumbnails.high.url' \
+            | xargs curl -L -o profile.png
+
+      - name: Copy to icon.png
+        run: cp profile.png icon.png
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add profile.png icon.png
+          git commit -m "Update profile image from YouTube" || exit 0
+          git push
